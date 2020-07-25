@@ -26,4 +26,57 @@ class PersonTest < Minitest::Test
     assert_equal 1000, person1.cash
     assert_equal 500, person2.cash
   end
+
+  def test_it_can_have_accounts
+    # skip
+    person1 = Person.new("Minerva", 1000)
+
+    person1.open_account("JP Morgan Chase")
+
+    assert person1.has_account_with?("JP Morgan Chase")
+  end
+
+  def test_accounts_have_balances
+    # skip
+    person1 = Person.new("Minerva", 1000)
+    person1.open_account("JP Morgan Chase")
+
+    assert_equal 0, person1.balance("JP Morgan Chase")
+  end
+
+  def test_it_can_deposit_into_accounts
+    # skip
+    person1 = Person.new("Minerva", 1000)
+    person1.open_account("JP Morgan Chase")
+
+    person1.deposit("JP Morgan Chase", 750)
+
+    assert_equal 750, person1.balance("JP Morgan Chase")
+    assert_equal 250, person1.cash
+  end
+
+  def test_it_can_withdraw_from_accounts
+    # skip
+    person1 = Person.new("Minerva", 1000)
+    person1.open_account("JP Morgan Chase")
+    person1.deposit("JP Morgan Chase", 750)
+
+    person1.withdraw("JP Morgan Chase", 250)
+
+    assert_equal 500, person1.balance("JP Morgan Chase")
+    assert_equal 500, person1.cash
+  end
+
+  def test_it_can_transfer_between_accounts
+    # skip
+    person1 = Person.new("Minerva", 1000)
+    person1.open_account("JP Morgan Chase")
+    person1.open_account("Wells Fargo")
+    person1.deposit("JP Morgan Chase", 750)
+
+    person1.transfer("JP Morgan Chase", "Wells Fargo", 250)
+
+    assert_equal 250, person1.balance("Wells Fargo")
+    assert_equal 500, person1.balance("JP Morgan Chase")
+  end
 end
